@@ -1,0 +1,68 @@
+{
+  "folders": [
+    {
+      "name": "__ROOT__",
+      "path": "../",
+    },
+    {
+      "name": "react",
+      "path": "../packages/react",
+    },
+    {
+      "name": "springboot",
+      "path": "../packages/springboot",
+    },
+  ],
+  "settings": {
+    "[dockercompose]": {
+      "editor.defaultFormatter": "redhat.vscode-yaml",
+    },
+    "[html]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+    "[java]": {
+      "editor.defaultFormatter": "redhat.java",
+    },
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+    "[javascriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+    "[jsonl]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+    "[markdown]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+    "[xml]": {
+      "editor.defaultFormatter": "redhat.vscode-xml",
+    },
+    "[yaml]": {
+      "editor.defaultFormatter": "redhat.vscode-yaml",
+    },
+    "css.lint.unknownAtRules": "ignore",
+    "github.copilot.enable": {
+      "*": false,
+      "markdown": false,
+      "plaintext": false,
+      "scminput": false,
+    },
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "tailwindCSS.lint.suggestCanonicalClasses": "ignore",
+    "tailwindCSS.rootFontSize": 10,
+  },
+}

@@ -1,0 +1,30 @@
+{
+  "description": "",
+  "devDependencies": {
+    "prettier": "^3.8.1",
+    "prettier-plugin-organize-attributes": "^1.0.0",
+    "prettier-plugin-sort-imports": "^1.8.9",
+    "prettier-plugin-sort-json": "^4.2.0",
+    "prettier-plugin-sort-members": "^0.2.4",
+    "prettier-plugin-tailwindcss": "^0.7.2"
+  },
+  "main": "index.js",
+  "name": "BlogPreviewCard",
+  "packageManager": "pnpm@10.23.0",
+  "private": true,
+  "scripts": {
+    "build": "pnpm -r --parallel build",
+    "dev": "pnpm -r --parallel dev",
+    "test": "pnpm -r --parallel test",
+
+    "springboot:build": "pnpm run --filter=springboot build",
+    "springboot:dev": "pnpm run --filter=springboot dev",
+    "springboot:test": "pnpm run --filter=springboot test",
+
+    "react:build": "pnpm run --filter=react build",
+    "react:dev": "pnpm run --filter=react dev",
+    "react:preview": "pnpm run --filter=react preview",
+    "react:test": "pnpm run --filter=react test"
+  },
+  "version": "1.0.0"
+}
