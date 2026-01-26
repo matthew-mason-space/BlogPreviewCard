@@ -1,0 +1,43 @@
+logging:
+  include-application-group: false
+  include-application-name: false
+  level:
+    root: error
+    "[com.mms.blogpreviewcard.controllers.BlogController]": info
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n%n"
+server:
+  error:
+    include-binding-errors: never
+    include-exception: false
+    include-message: never
+    include-path: always
+    include-stacktrace: never
+    whitelabel:
+      enabled: true
+  port: 8080
+spring:
+  application:
+    name: springboot
+  datasource:
+    password: root
+    url: jdbc:postgresql://localhost:5432/database
+    username: root
+  docker:
+    compose:
+      file:
+        - "../../compose.yaml"
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    show-sql: false
+  main:
+    banner-mode: off
+  sql:
+    init:
+      data-locations:
+        - "classpath:db/init/data.sql"
+      mode: always
+      schema-locations:
+        - "classpath:db/init/scheme.sql"

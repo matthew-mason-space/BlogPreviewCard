@@ -1,0 +1,77 @@
+### Get results 
+GET http://localhost:8080/api/blog/1
+Content-Type: application/json
+
+### Get error
+### (Invalid value 'b' for parameter 'id')
+GET http://localhost:8080/api/blog/b
+Content-Type: application/json
+
+### Get error
+### ("getBlog.id: must be greater than 0")
+GET http://localhost:8080/api/blog/-1
+Content-Type: application/json
+
+### Get error
+### (Invalid value '1.5' for parameter 'id')
+GET http://localhost:8080/api/blog/1.5
+Content-Type: application/json
+
+### Get error
+### (Invalid value '9223372036854775808' for parameter 'id')
+GET http://localhost:8080/api/blog/9223372036854775808
+Content-Type: application/json
+
+### Get error
+### ("Not Found")
+GET http://localhost:8080/api/blog/?
+Content-Type: application/json
+
+### Get error
+### ("Not Found")
+GET http://localhost:8080/api/blog
+Content-Type: application/json
+
+### Get error
+### ("Not Found")
+GET http://localhost:8080/api/blog/
+Content-Type: application/json
+
+### Delete error
+### ("Method Not Allowed",)
+DELETE  http://localhost:8080/api/blog/1
+Content-Type: application/json
+
+### Post error
+### ("Method Not Allowed",)
+PATCH  http://localhost:8080/api/blog/1
+Content-Type: application/json
+
+### Post error
+### ("Method Not Allowed",)
+POST http://localhost:8080/api/blog/1
+Content-Type: application/json
+
+### Get error
+# client asked for text/plain and your endpoints (and your error handler) 
+# produce application/json, Spring finds no acceptable representation and 
+# returns 406 with an empty body.
+# just 406
+GET http://localhost:8080/api/blog/1
+Accept: text/plain
+Content-Type: application/json
+
+### Get error
+# For a GET with no request body, Spring ignores Content-Type — 
+# there is nothing to parse — so no 415 is raised. That’s why a request with 
+# Content-Type: text/plain can still be "honored".
+GET http://localhost:8080/api/blog/1
+Content-Type: text/plain
+
+### Get error
+# Cause (short): %00 (NUL) in the path is rejected by the servlet container 
+# (Tomcat) during HTTP parsing/decoding before Spring MVC/DispatcherServlet 
+# runs, so your @ExceptionHandler methods never see it. The container returns 
+# a 400 HTML error page.
+GET http://localhost:8080/api/blog/%00
+Content-Type: application/json

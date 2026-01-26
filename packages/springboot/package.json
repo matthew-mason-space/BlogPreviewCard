@@ -1,0 +1,15 @@
+{
+  "dependencies": {},
+  "devDependencies": {},
+  "name": "springboot",
+  "packageManager": "pnpm@10.23.0",
+  "private": true,
+  "scripts": {
+    "build": "./mvnw -Dmaven.test.skip=true clean package",
+    "clean": "./mvnw clean package",
+    "dev": "./mvnw spring-boot:run",
+    "postinstall": "./mvnw dependency:resolve -Dclassifier=javadoc",
+    "test": ""
+  },
+  "version": "1.0.0"
+}

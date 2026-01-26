@@ -1,0 +1,13 @@
+{
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.mvn": true,
+    "**/.svn": true,
+    "**/Thumbs.db": true,
+    "**/mvnw": true,
+    "**/mvnw.cmd": true,
+    "**/target": true
+  }
+}

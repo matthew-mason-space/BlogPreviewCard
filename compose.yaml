@@ -1,0 +1,16 @@
+services:
+  adminer:
+    container_name: BlogPreviewCardAdminer
+    image: "adminer:latest"
+    ports:
+      - "9090:8080"
+    restart: always
+  postgres:
+    container_name: BlogPreviewCardPostgres
+    environment:
+      - "POSTGRES_DB=database"
+      - "POSTGRES_PASSWORD=root"
+      - "POSTGRES_USER=root"
+    image: "postgres:latest"
+    ports:
+      - "5432"

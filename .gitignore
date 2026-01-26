@@ -18,10 +18,8 @@
 .env
 .factorypath
 .idea
-.idea
 .mvn/wrapper/maven-wrapper.jar
 .project
-.settings
 .springBeans
 .sts4-cache
 /.nb-gradle/

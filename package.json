@@ -14,10 +14,12 @@
   "private": true,
   "scripts": {
     "build": "pnpm -r --parallel build",
+    "clean": "pnpm -r --parallel clean",
     "dev": "pnpm -r --parallel dev",
     "test": "pnpm -r --parallel test",
 
     "springboot:build": "pnpm run --filter=springboot build",
+    "springboot:clean": "pnpm run --filter=springboot clean",
     "springboot:dev": "pnpm run --filter=springboot dev",
     "springboot:test": "pnpm run --filter=springboot test",
 
