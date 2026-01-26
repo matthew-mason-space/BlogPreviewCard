@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./assets/fonts/figtree.css";
 
 @layer base {
   html {
@@ -7,4 +8,10 @@
 }
 
 @theme {
+  --color-gray-500: #6b6b6b;
+  --color-gray-950: #111111;
+  --color-white: #ffffff;
+  --color-yellow: #f4d04e;
+
+  --font-figtree: "Figtree";
 }
