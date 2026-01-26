@@ -7,9 +7,10 @@
   "scripts": {
     "build": "./mvnw -Dmaven.test.skip=true clean package",
     "clean": "./mvnw clean package",
-    "dev": "./mvnw spring-boot:run",
+    "dev": "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev",
     "postinstall": "./mvnw dependency:resolve -Dclassifier=javadoc",
-    "test": ""
+    "prod": "java -jar -Dspring-boot.run.profiles=prod target/springboot-1.0.0.jar",
+    "test": "./mvnw spring-boot:run -Dspring-boot.run.profiles=test"
   },
   "version": "1.0.0"
 }

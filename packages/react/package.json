@@ -26,10 +26,11 @@
   "name": "react",
   "private": true,
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "clean": "",
+    "dev": "vite",
+    "prod": "vite preview",
+    "test": ""
   },
   "type": "module",
   "version": "1.0.0"

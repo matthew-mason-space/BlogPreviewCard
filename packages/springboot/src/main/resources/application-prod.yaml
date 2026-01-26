@@ -38,6 +38,6 @@ spring:
     init:
       data-locations:
         - "classpath:db/init/data.sql"
-      mode: always
+      mode: never
       schema-locations:
         - "classpath:db/init/scheme.sql"

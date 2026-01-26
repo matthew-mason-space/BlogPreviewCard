@@ -16,16 +16,19 @@
     "build": "pnpm -r --parallel build",
     "clean": "pnpm -r --parallel clean",
     "dev": "pnpm -r --parallel dev",
+    "prod": "pnpm -r --parallel prod",
     "test": "pnpm -r --parallel test",
 
     "springboot:build": "pnpm run --filter=springboot build",
     "springboot:clean": "pnpm run --filter=springboot clean",
     "springboot:dev": "pnpm run --filter=springboot dev",
+    "springboot:prod": "pnpm run --filter=springboot prod",
     "springboot:test": "pnpm run --filter=springboot test",
 
     "react:build": "pnpm run --filter=react build",
+    "react:clean": "pnpm run --filter=react clean",
     "react:dev": "pnpm run --filter=react dev",
-    "react:preview": "pnpm run --filter=react preview",
+    "react:prod": "pnpm run --filter=react prod",
     "react:test": "pnpm run --filter=react test"
   },
   "version": "1.0.0"
