@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,31 +22,24 @@ public class BlogEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "author_name", nullable = false)
-  @NotBlank
+  @Column(name = "author_name", length = 255, nullable = false)
   private String authorName;
 
-  @Column(name = "author_src", nullable = false)
-  @NotBlank
+  @Column(name = "author_src", length = 255, nullable = false)
   private String authorSrc;
 
-  @Column(name = "blog_category", nullable = false)
-  @NotBlank
+  @Column(name = "blog_category", length = 255, nullable = false)
   private String blogCategory;
 
-  @Column(name = "blog_date", nullable = false)
-  @NotBlank
+  @Column(name = "blog_date", length = 255, nullable = false)
   private String blogDate;
 
-  @Column(name = "blog_description", nullable = false, columnDefinition = "TEXT")
-  @NotBlank
+  @Column(columnDefinition = "TEXT", name = "blog_description", nullable = false)
   private String blogDescription;
 
-  @Column(name = "blog_image", nullable = false)
-  @NotBlank
+  @Column(name = "blog_image", length = 255, nullable = false)
   private String blogImage;
 
-  @Column(name = "blog_title", nullable = false)
-  @NotBlank
+  @Column(name = "blog_title", length = 255, nullable = false)
   private String blogTitle;
 }

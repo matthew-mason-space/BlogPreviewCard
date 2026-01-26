@@ -1,11 +1,18 @@
 package com.mms.blogpreviewcard.advices;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -16,21 +23,29 @@ import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.mms.blogpreviewcard.controllers.BlogController;
+import com.mms.blogpreviewcard.dto.BlogErrorDTO;
 import com.mms.blogpreviewcard.exceptions.BlogResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
+import lombok.RequiredArgsConstructor;
 
-@ControllerAdvice(assignableTypes = {
+@RestControllerAdvice(assignableTypes = {
     BlogController.class
 })
+@RequiredArgsConstructor
 public class BlogAdvice {
+  private static final Logger log = LoggerFactory
+      .getLogger(BlogAdvice.class);
+
+  private final Environment environment;
+
   // HttpMediaTypeNotAcceptableException: client Accept header cannot be
   // satisfied.
   // -> response: 406 NOT_ACCEPTABLE
@@ -120,6 +135,24 @@ public class BlogAdvice {
   public ResponseEntity<Map<String, Object>> handleGeneric(
       Exception exception,
       HttpServletRequest request) {
+    log.error(
+        "Unhandled error for {}: {}",
+        request.getRequestURI(),
+        exception.getMessage(),
+        exception);
+
+    BlogErrorDTO blogErrorDTO = BlogErrorDTO.builder()
+        .error(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
+        .message("Unexpected error")
+        .path(request.getRequestURI())
+        .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+        .timestamp(Instant.now())
+        .build();
+
+    if (includeTrace(request)) {
+      blogErrorDTO.setTrace(this.stackTrace(exception));
+    }
+
     return toResponse(
         Map.of("detail", exception.getMessage()),
         request,
@@ -167,15 +200,24 @@ public class BlogAdvice {
   @ExceptionHandler(exception = {
       BlogResourceNotFoundException.class
   })
-  public ResponseEntity<Map<String, Object>> handleNotFound(
+  public ResponseEntity<BlogErrorDTO> handleNotFound(
       BlogResourceNotFoundException exception,
       HttpServletRequest request) {
 
-    return toResponse(
-        null,
-        request,
-        HttpStatus.NOT_FOUND,
+    log.info(
+        "Not found: {} - {}",
+        request.getRequestURI(),
         exception.getMessage());
+
+    BlogErrorDTO blogErrorDTO = BlogErrorDTO.builder()
+        .error(HttpStatus.NOT_FOUND.getReasonPhrase())
+        .message(exception.getMessage())
+        .path(request.getRequestURI())
+        .status(HttpStatus.NOT_FOUND.value())
+        .timestamp(Instant.now())
+        .build();
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(blogErrorDTO);
   }
 
   // MethodArgumentTypeMismatchException / NumberFormatException: when path
@@ -217,22 +259,34 @@ public class BlogAdvice {
   @ExceptionHandler(exception = {
       MethodArgumentNotValidException.class
   })
-  public ResponseEntity<Map<String, Object>> handleValidation(
+  public ResponseEntity<BlogErrorDTO> handleValidation(
       MethodArgumentNotValidException exception,
       HttpServletRequest request) {
 
-    List<String> errors = exception
+    String message = exception
         .getBindingResult()
         .getFieldErrors()
         .stream()
-        .map(fe -> fe.getField() + ": " + fe.getDefaultMessage())
-        .collect(Collectors.toList());
+        .map(f -> f.getField() + ": " + f.getDefaultMessage())
+        .collect(Collectors.joining("; "));
 
-    return toResponse(
-        Map.of("errors", errors),
-        request,
-        HttpStatus.BAD_REQUEST,
-        "Validation failed");
+    log.info(
+        "Validation failed for {}: {}",
+        request.getRequestURI(),
+        message);
+
+    BlogErrorDTO blogErrorDTO = BlogErrorDTO
+        .builder()
+        .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+        .message(message)
+        .path(request.getRequestURI())
+        .status(HttpStatus.BAD_REQUEST.value())
+        .timestamp(Instant.now())
+        .build();
+
+    return ResponseEntity
+        .badRequest()
+        .body(blogErrorDTO);
   }
 
   // HttpMessageNotReadableException: when request body is missing or malformed
@@ -272,6 +326,22 @@ public class BlogAdvice {
         request,
         HttpStatus.UNSUPPORTED_MEDIA_TYPE,
         "Unsupported media type");
+  }
+
+  private boolean includeTrace(HttpServletRequest request) {
+    boolean devProfile = environment
+        .acceptsProfiles(Profiles.of("dev"));
+
+    boolean traceParam = "true"
+        .equalsIgnoreCase(request.getParameter("trace"));
+
+    return devProfile || traceParam;
+  }
+
+  private String stackTrace(Throwable throwable) {
+    StringWriter stringWriter = new StringWriter();
+    throwable.printStackTrace(new PrintWriter(stringWriter));
+    return stringWriter.toString();
   }
 
   private ResponseEntity<Map<String, Object>> toResponse(
