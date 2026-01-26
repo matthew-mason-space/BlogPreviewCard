@@ -8,6 +8,6 @@
     "**/Thumbs.db": true,
     "**/mvnw": true,
     "**/mvnw.cmd": true,
-    "**/target": false
+    "**/target": true
   }
 }

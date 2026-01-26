@@ -64,6 +64,5 @@
     "java.configuration.updateBuildConfiguration": "automatic",
     "tailwindCSS.lint.suggestCanonicalClasses": "ignore",
     "tailwindCSS.rootFontSize": 10,
-    "boot-java.cron.inlay-hints": false,
   },
 }
