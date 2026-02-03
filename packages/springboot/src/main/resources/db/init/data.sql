@@ -1,6 +1,5 @@
 INSERT INTO
   blog (
-    id,
     author_name,
     author_src,
     blog_category,
@@ -11,7 +10,6 @@ INSERT INTO
   )
 VALUES
   (
-    1,
     'Greg Hooper',
     'image-avatar.webp',
     'Learning',
@@ -19,4 +17,4 @@ VALUES
     'These languages...',
     'illustration-article.svg',
     'HTML & CSS foundations'
-  ) ON CONFLICT (id) DO NOTHING;
+  ) ON CONFLICT DO NOTHING;
